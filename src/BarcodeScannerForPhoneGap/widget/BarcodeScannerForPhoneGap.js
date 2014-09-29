@@ -1,6 +1,6 @@
 // Dropdown Select Widget
-dojo.provide('MxwxBarcodeScanner.widget.MxwxBarcodeScanner');
-dojo.declare('MxwxBarcodeScanner.widget.MxwxBarcodeScanner', mxui.widget._WidgetBase, {
+dojo.provide('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap');
+dojo.declare('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap', mxui.widget._WidgetBase, {
 
 	// Coding guideline, internal variables start with '_'.
 	// internal variables.
