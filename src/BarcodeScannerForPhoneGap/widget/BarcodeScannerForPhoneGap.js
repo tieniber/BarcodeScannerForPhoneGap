@@ -24,9 +24,6 @@ dojo.declare('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap', mxui.
 
 		dojo.addClass(this.domNode, 'wx-mxwxbarcodescanner-container');
 
-		// Setup widget
-		this._setupWX();
-
 		// Create childnodes
 		this._createChildnodes();
 
@@ -39,18 +36,13 @@ dojo.declare('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap', mxui.
 		'use strict';
 
 		if(typeof obj === 'string'){
-			this._contextGuid = obj;
 			mx.data.get({
 				guids    : [this._contextGuid],
-				callback : dojo.hitch(this, function(objs) {
-					this._contextObj = objs;
+				callback : dojo.hitch(this, function(obj) {
+					this._loadData(obj);
 				})
 			});
-		} else {
-			this._contextObj = obj;
-		}
-
-		if(obj === null){
+		} else if(obj === null){
 			// Sorry no data no show!
 			console.log('Whoops... the BarcodeScanner has no data!');
 		} else {
@@ -60,70 +52,81 @@ dojo.declare('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap', mxui.
 				callback : dojo.hitch(this, this._refresh)
 			});
 			// Load data
-			this._loadData();
+			this._loadData(obj);
 		}
-
 
 		if(typeof callback !== 'undefined') {
 			callback();
 		}
 	},
 
-	_refresh : function(){
-		//TODO??
-	},
-
-
-	// Setup
-	setupWX: function() {
+	_loadData : function(obj) {
 		'use strict';
 
-		// Set class for domNode
+		this._obj = obj;
+	},
 
+	_refresh : function(obj){
+		'use strict';
+
+		this._loadData(obj);
 	},
 
 	// Internal event setup.
-	setupEvents : function() {
+	_setupEvents : function() {
 		'use strict';
 
 		// Attach only one event to dropdown list.
 		dojo.connect( this._button, "onclick", dojo.hitch(this, function(evt){
 
-			// The camera function has a success, failure and a reference to this.
+			// The barcode function has a success, failure and a reference to this.
 			cordova.plugins.barcodeScanner.scan(
-				dojo.hitch(this, function (result) {
-					var html = ( 'We got a barcode\n' +
-						'Result: ' + result.text + '\n' +
-						'Format: ' + result.format + '\n' +
-						'Cancelled: ' + result.cancelled );
-					dojo.create("div", { innerHTML: html }, this._wxnode);
-				}),
-				dojo.hitch(this, function (error) {
-					var html = ( 'Scanning failed: ' + error );
-					dojo.create("div", { innerHTML: html }, this._wxnode);
-				})
+				dojo.hitch(this, this.barcodeSuccess),
+				dojo.hitch(this, this.barcodeFailure)
 			);
 
 		}));
 
 	},
 
-	cameraFailure : function(e, ref){
+	barcodeSuccess : function(output) {
 		'use strict';
 
-		console.log('Camera failure!');
-		console.log(e);
+		if (output.cancelled == false && output.text && output.text.length > 0) { 
+			this._obj.set(this.attributeName, output.text);
+			this._executeMicroflow();
+		}
 	},
 
-	createChildnodes: function() {
+	barcodeFailure : function(error) {
+		'use strict';
+
+		var html = ( 'Scanning failed: ' + error );
+		dojo.create("div", { innerHTML: html }, this._wxnode);
+	},
+
+	_executeMicroflow : function () {
+		'use strict';
+
+		if (this.onchangemf && this._obj) {
+			mx.processor.xasAction({
+				error       : function() {},
+				actionname  : this.onchangemf,
+				applyto     : 'selection',
+				guids       : [this._obj.getGuid()]
+			});
+		}
+	},
+
+	_createChildnodes: function() {
 		'use strict';
 
 		// Placeholder container
-        this._button = mxui.dom.div();
-        dojo.addClass(this._button, 'wx-mxwxbarcodescanner-button btn btn-primary');
-        dojo.html.set(this._button, this.buttonLabel || 'Scan barcode.');
+		this._button = mxui.dom.div();
+		dojo.addClass(this._button, 'wx-mxwxbarcodescanner-button btn btn-primary');
+		dojo.html.set(this._button, this.buttonLabel || 'Scan barcode.');
 
-        // Add to wxnode
-        this.domNode.appendChild(this._button);
+		// Add to wxnode
+		this.domNode.appendChild(this._button);
 	}
 });
