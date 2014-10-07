@@ -8,9 +8,6 @@
 		// internal variables.
 		_wxnode : null,
 
-		// * 
-		_button : null,
-
 		_hasStarted : false,
 		_obj : null,
 		_button : null,
@@ -22,7 +19,7 @@
 
 			this._hasStarted = true;
 
-			dojo.addClass(this.domNode, 'wx-mxwxbarcodescanner-container');
+			dojo.addClass(this.domNode, 'wx-barcodescanner-container');
 
 			// Create childnodes
 			this._createChildnodes();
