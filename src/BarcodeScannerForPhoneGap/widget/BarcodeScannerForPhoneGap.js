@@ -105,6 +105,9 @@
 			// Placeholder container
 			this._button = mxui.dom.div();
 			dojo.addClass(this._button, 'wx-mxwxbarcodescanner-button btn btn-primary');
+			if (this.buttonClass)
+				dojo.addClass(this._button, this.buttonClass);
+			
 			dojo.html.set(this._button, this.buttonLabel || 'Scan barcode.');
 
 			// Add to wxnode
