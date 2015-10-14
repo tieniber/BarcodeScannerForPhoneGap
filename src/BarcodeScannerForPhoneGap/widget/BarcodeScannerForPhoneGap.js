@@ -1,3 +1,4 @@
+/*global mxui, mx, dojo, cordova */
 (function(){
     'use strict';
 
@@ -32,7 +33,7 @@
 		update : function (obj, callback) {
 			if(typeof obj === 'string'){
 				mx.data.get({
-					guids    : [this._contextGuid],
+					guid    : obj,
 					callback : dojo.hitch(this, function(obj) {
 						this._loadData(obj);
 					})
@@ -60,7 +61,18 @@
 		},
 
 		_refresh : function(obj){
-			this._loadData(obj);
+            if(typeof obj === 'string'){
+				mx.data.get({
+					guid    : obj,
+					callback : dojo.hitch(this, function(obj) {
+						this._loadData(obj);
+					})
+				});
+			} else if(obj === null){
+				console.log('Whoops... the BarcodeScanner has no data!');
+			} else {
+				this._loadData(obj);
+			}
 		},
 
 		// Internal event setup.
