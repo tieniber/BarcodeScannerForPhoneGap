@@ -79,15 +79,16 @@
 		_setupEvents : function() {
 			// Attach only one event to dropdown list.
 			dojo.connect( this._button, "onclick", dojo.hitch(this, function(evt){
-
 				// The barcode function has a success, failure and a reference to this.
-				cordova.plugins.barcodeScanner.scan(
-					dojo.hitch(this, this.barcodeSuccess),
-					dojo.hitch(this, this.barcodeFailure)
-				);
-
+				if( typeof( cordova)){
+					cordova.plugins.barcodeScanner.scan(
+						dojo.hitch(this, this.barcodeSuccess),
+						dojo.hitch(this, this.barcodeFailure)
+					);
+				} else {
+					mx.ui.error('Unable to detect camera.');
+				}
 			}));
-
 		},
 
 		barcodeSuccess : function(output) {
