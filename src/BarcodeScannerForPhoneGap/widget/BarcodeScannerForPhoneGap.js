@@ -22,7 +22,7 @@ define([
 
             dojoClass.add(this.domNode, "wx-barcodescanner-container");
 
-            this._createChildnodes();
+            this._createChildNodes();
             this._setupEvents();
         },
 
@@ -74,7 +74,7 @@ define([
             }
         },
 
-        _createChildnodes: function() {
+        _createChildNodes: function() {
             this._button = mxuiDom.create("div", {
                 className: "wx-mxwxbarcodescanner-button btn btn-primary"
             });
