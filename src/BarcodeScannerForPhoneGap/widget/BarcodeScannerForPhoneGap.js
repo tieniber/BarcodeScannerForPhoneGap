@@ -6,7 +6,11 @@ define([
 
     return declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap", _WidgetBase, {
 
-        _wxnode: null,
+        attributeName: "",
+        buttonLabel: "",
+        buttonClass: "",
+        onchangemf: "",
+
         _hasStarted: false,
         _obj: null,
         _button: null,
