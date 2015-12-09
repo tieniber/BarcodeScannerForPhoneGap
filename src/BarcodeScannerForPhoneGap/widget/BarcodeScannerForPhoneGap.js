@@ -4,15 +4,12 @@ define([ "dojo/_base/declare" ], function(declare) {
 
     return declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap", mxui.widget._WidgetBase, {
 
-        // Coding guideline, internal variables start with '_'.
-        // internal variables.
         _wxnode : null,
 
         _hasStarted : false,
         _obj : null,
         _button : null,
 
-        // Externally executed mendix function to create widget.
         startup: function() {
             if (this._hasStarted)
                 return;
@@ -21,12 +18,8 @@ define([ "dojo/_base/declare" ], function(declare) {
 
             dojo.addClass(this.domNode, "wx-barcodescanner-container");
 
-            // Create childnodes
             this._createChildnodes();
-
-            // Setup events
             this._setupEvents();
-
         },
 
         update : function (obj, callback) {
@@ -38,15 +31,12 @@ define([ "dojo/_base/declare" ], function(declare) {
                     })
                 });
             } else if(obj === null){
-                // Sorry no data no show!
                 console.log("Whoops... the BarcodeScanner has no data!");
             } else {
-                // Attach to data refresh.
                 mx.data.subscribe({
                     guid : obj.getGuid(),
                     callback : dojo.hitch(this, this._refresh)
                 });
-                // Load data
                 this._loadData(obj);
             }
 
@@ -74,11 +64,8 @@ define([ "dojo/_base/declare" ], function(declare) {
             }
         },
 
-        // Internal event setup.
         _setupEvents : function() {
-            // Attach only one event to dropdown list.
             dojo.connect( this._button, "onclick", dojo.hitch(this, function(evt){
-                // The barcode function has a success, failure and a reference to this.
                 if( typeof( cordova)){
                     cordova.plugins.barcodeScanner.scan(
                         dojo.hitch(this, this.barcodeSuccess),
@@ -114,7 +101,6 @@ define([ "dojo/_base/declare" ], function(declare) {
         },
 
         _createChildnodes: function() {
-            // Placeholder container
             this._button = mxui.dom.div();
             dojo.addClass(this._button, "wx-mxwxbarcodescanner-button btn btn-primary");
             if (this.buttonClass)
@@ -122,7 +108,6 @@ define([ "dojo/_base/declare" ], function(declare) {
 
             dojo.html.set(this._button, this.buttonLabel || "Scan barcode.");
 
-            // Add to wxnode
             this.domNode.appendChild(this._button);
         }
     });
