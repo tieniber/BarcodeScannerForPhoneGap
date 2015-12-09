@@ -1,8 +1,10 @@
 /*global mxui, mx, dojo, cordova */
-define([ "dojo/_base/declare" ], function(declare) {
+define([
+    "mxui/widget/_WidgetBase", "mxui/dom", "dojo/dom-class", "dojo/_base/declare"
+], function(_WidgetBase, mxuiDom, dojoClass, declare) {
     "use strict";
 
-    return declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap", mxui.widget._WidgetBase, {
+    return declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap", _WidgetBase, {
 
         _wxnode: null,
         _hasStarted: false,
@@ -15,7 +17,7 @@ define([ "dojo/_base/declare" ], function(declare) {
 
             this._hasStarted = true;
 
-            dojo.addClass(this.domNode, "wx-barcodescanner-container");
+            dojoClass.add(this.domNode, "wx-barcodescanner-container");
 
             this._createChildnodes();
             this._setupEvents();
@@ -25,16 +27,14 @@ define([ "dojo/_base/declare" ], function(declare) {
             if (typeof obj === "string") {
                 mx.data.get({
                     guid: obj,
-                    callback: dojo.hitch(this, function(obj) {
-                        this._loadData(obj);
-                    })
+                    callback: this._loadData.bind(this)
                 });
             } else if (obj === null) {
                 console.log("Whoops... the BarcodeScanner has no data!");
             } else {
                 mx.data.subscribe({
                     guid: obj.getGuid(),
-                    callback: dojo.hitch(this, this._refresh)
+                    callback: this._refresh.bind(this)
                 });
                 this._loadData(obj);
             }
@@ -52,9 +52,7 @@ define([ "dojo/_base/declare" ], function(declare) {
             if (typeof obj === "string") {
                 mx.data.get({
                     guid: obj,
-                    callback: dojo.hitch(this, function(obj) {
-                        this._loadData(obj);
-                    })
+                    callback: this._loadData.bind(this)
                 });
             } else if (obj === null) {
                 console.log("Whoops... the BarcodeScanner has no data!");
@@ -64,16 +62,16 @@ define([ "dojo/_base/declare" ], function(declare) {
         },
 
         _setupEvents: function() {
-            dojo.connect(this._button, "onclick", dojo.hitch(this, function(evt) {
+            this.connect(this._button, "click", function(evt) {
                 if (typeof(cordova)) {
                     cordova.plugins.barcodeScanner.scan(
-                        dojo.hitch(this, this.barcodeSuccess),
-                        dojo.hitch(this, this.barcodeFailure)
+                        this.barcodeSuccess.bind(this),
+                        this.barcodeFailure.bind(this)
                     );
                 } else {
                     mx.ui.error("Unable to detect camera.");
                 }
-            }));
+            });
         },
 
         barcodeSuccess: function(output) {
@@ -84,8 +82,7 @@ define([ "dojo/_base/declare" ], function(declare) {
         },
 
         barcodeFailure: function(error) {
-            var html = ("Scanning failed: " + error);
-            dojo.create("div", { innerHTML: html }, this._wxnode);
+            mx.ui.error("Scanning failed: " + error.message);
         },
 
         _executeMicroflow: function() {
@@ -100,12 +97,12 @@ define([ "dojo/_base/declare" ], function(declare) {
         },
 
         _createChildnodes: function() {
-            this._button = mxui.dom.div();
-            dojo.addClass(this._button, "wx-mxwxbarcodescanner-button btn btn-primary");
+            this._button = mxuiDom.create("div");
+            dojoClass.add(this._button, "wx-mxwxbarcodescanner-button btn btn-primary");
             if (this.buttonClass)
-                dojo.addClass(this._button, this.buttonClass);
+                dojoClass.add(this._button, this.buttonClass);
 
-            dojo.html.set(this._button, this.buttonLabel || "Scan barcode.");
+            this._button.textContent = this.buttonLabel || "Scan barcode";
 
             this.domNode.appendChild(this._button);
         }
