@@ -52,7 +52,7 @@ define([
         },
 
         barcodeSuccess: function(output) {
-            if (output.cancelled == false && output.text && output.text.length > 0) {
+            if (!output.cancelled && output.text && output.text.length > 0) {
                 this._obj.set(this.attributeName, output.text);
                 this._executeMicroflow();
             }
