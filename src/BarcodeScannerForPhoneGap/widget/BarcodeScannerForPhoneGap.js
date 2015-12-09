@@ -40,8 +40,8 @@ define([
             if (barcodeScannerAvailable) {
                 this.connect(this._button, "click", function() {
                     cordova.plugins.barcodeScanner.scan(
-                        this.barcodeSuccess.bind(this),
-                        this.barcodeFailure.bind(this)
+                        this._barcodeSuccess.bind(this),
+                        this._barcodeFailure.bind(this)
                     );
                 });
             } else {
@@ -51,14 +51,14 @@ define([
             }
         },
 
-        barcodeSuccess: function(output) {
+        _barcodeSuccess: function(output) {
             if (!output.cancelled && output.text && output.text.length > 0) {
                 this._obj.set(this.attributeName, output.text);
                 this._executeMicroflow();
             }
         },
 
-        barcodeFailure: function(error) {
+        _barcodeFailure: function(error) {
             mx.ui.error("Scanning failed: " + error.message);
         },
 
