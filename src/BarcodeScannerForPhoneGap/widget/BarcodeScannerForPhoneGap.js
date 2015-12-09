@@ -76,7 +76,7 @@ define([
 
         _createChildNodes: function() {
             this._button = mxuiDom.create("div", {
-                className: "wx-mxwxbarcodescanner-button btn btn-primary"
+                "class": "wx-mxwxbarcodescanner-button btn btn-primary"
             });
             if (this.buttonClass) dojoClass.add(this._button, this.buttonClass);
 
