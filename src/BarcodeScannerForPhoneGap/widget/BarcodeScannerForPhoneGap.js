@@ -4,11 +4,10 @@ define([ "dojo/_base/declare" ], function(declare) {
 
     return declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap", mxui.widget._WidgetBase, {
 
-        _wxnode : null,
-
-        _hasStarted : false,
-        _obj : null,
-        _button : null,
+        _wxnode: null,
+        _hasStarted: false,
+        _obj: null,
+        _button: null,
 
         startup: function() {
             if (this._hasStarted)
@@ -22,51 +21,51 @@ define([ "dojo/_base/declare" ], function(declare) {
             this._setupEvents();
         },
 
-        update : function (obj, callback) {
-            if(typeof obj === "string"){
+        update: function (obj, callback) {
+            if (typeof obj === "string") {
                 mx.data.get({
-                    guid    : obj,
-                    callback : dojo.hitch(this, function(obj) {
+                    guid: obj,
+                    callback: dojo.hitch(this, function(obj) {
                         this._loadData(obj);
                     })
                 });
-            } else if(obj === null){
+            } else if (obj === null) {
                 console.log("Whoops... the BarcodeScanner has no data!");
             } else {
                 mx.data.subscribe({
-                    guid : obj.getGuid(),
-                    callback : dojo.hitch(this, this._refresh)
+                    guid: obj.getGuid(),
+                    callback: dojo.hitch(this, this._refresh)
                 });
                 this._loadData(obj);
             }
 
-            if(typeof callback !== "undefined") {
+            if (typeof callback !== "undefined") {
                 callback();
             }
         },
 
-        _loadData : function(obj) {
+        _loadData: function(obj) {
             this._obj = obj;
         },
 
-        _refresh : function(obj){
-            if(typeof obj === "string"){
+        _refresh: function(obj){
+            if (typeof obj === "string") {
                 mx.data.get({
-                    guid    : obj,
-                    callback : dojo.hitch(this, function(obj) {
+                    guid: obj,
+                    callback: dojo.hitch(this, function(obj) {
                         this._loadData(obj);
                     })
                 });
-            } else if(obj === null){
+            } else if (obj === null) {
                 console.log("Whoops... the BarcodeScanner has no data!");
             } else {
                 this._loadData(obj);
             }
         },
 
-        _setupEvents : function() {
-            dojo.connect( this._button, "onclick", dojo.hitch(this, function(evt){
-                if( typeof( cordova)){
+        _setupEvents: function() {
+            dojo.connect(this._button, "onclick", dojo.hitch(this, function(evt) {
+                if (typeof(cordova)) {
                     cordova.plugins.barcodeScanner.scan(
                         dojo.hitch(this, this.barcodeSuccess),
                         dojo.hitch(this, this.barcodeFailure)
@@ -77,25 +76,25 @@ define([ "dojo/_base/declare" ], function(declare) {
             }));
         },
 
-        barcodeSuccess : function(output) {
+        barcodeSuccess: function(output) {
             if (output.cancelled == false && output.text && output.text.length > 0) {
                 this._obj.set(this.attributeName, output.text);
                 this._executeMicroflow();
             }
         },
 
-        barcodeFailure : function(error) {
-            var html = ( "Scanning failed: " + error );
+        barcodeFailure: function(error) {
+            var html = ("Scanning failed: " + error);
             dojo.create("div", { innerHTML: html }, this._wxnode);
         },
 
-        _executeMicroflow : function () {
+        _executeMicroflow: function() {
             if (this.onchangemf && this._obj) {
                 mx.processor.xasAction({
-                    error       : function() {},
-                    actionname  : this.onchangemf,
-                    applyto     : "selection",
-                    guids       : [this._obj.getGuid()]
+                    error: function() {},
+                    actionname: this.onchangemf,
+                    applyto: "selection",
+                    guids: [ this._obj.getGuid() ]
                 });
             }
         },
