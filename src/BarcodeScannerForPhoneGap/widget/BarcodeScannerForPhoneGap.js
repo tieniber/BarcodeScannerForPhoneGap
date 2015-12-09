@@ -75,10 +75,10 @@ define([
         },
 
         _createChildnodes: function() {
-            this._button = mxuiDom.create("div");
-            dojoClass.add(this._button, "wx-mxwxbarcodescanner-button btn btn-primary");
-            if (this.buttonClass)
-                dojoClass.add(this._button, this.buttonClass);
+            this._button = mxuiDom.create("div", {
+                "class": "wx-mxwxbarcodescanner-button btn btn-primary"
+            });
+            if (this.buttonClass) dojoClass.add(this._button, this.buttonClass);
 
             this._button.textContent = this.buttonLabel || "Scan barcode";
 
