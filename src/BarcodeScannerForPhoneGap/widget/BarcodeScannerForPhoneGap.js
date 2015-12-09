@@ -32,16 +32,23 @@ define([
         },
 
         _setupEvents: function() {
-            this.connect(this._button, "click", function(evt) {
-                if (typeof(cordova)) {
+            var barcodeScannerAvailable = (
+                typeof(cordova) !== "undefined" &&
+                typeof(cordova.plugins.barcodeScanner) !== "undefined"
+            );
+
+            if (barcodeScannerAvailable) {
+                this.connect(this._button, "click", function() {
                     cordova.plugins.barcodeScanner.scan(
                         this.barcodeSuccess.bind(this),
                         this.barcodeFailure.bind(this)
                     );
-                } else {
+                });
+            } else {
+                this.connect(this._button, "click", function() {
                     mx.ui.error("Unable to detect camera.");
-                }
-            });
+                });
+            }
         },
 
         barcodeSuccess: function(output) {
