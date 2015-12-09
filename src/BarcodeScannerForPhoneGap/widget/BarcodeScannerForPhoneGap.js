@@ -66,7 +66,7 @@ define([
             if (this.onchangemf && this._obj) {
                 mx.data.action({
                     params: {
-                        actionname: this.onchangemf
+                        actionname: this.onchangemf,
                         applyto: "selection",
                         guids: [ this._obj.getGuid() ]
                     }
