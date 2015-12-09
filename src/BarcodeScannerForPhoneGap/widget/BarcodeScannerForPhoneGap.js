@@ -27,39 +27,8 @@ define([
         },
 
         update: function (obj, callback) {
-            if (typeof obj === "string") {
-                mx.data.get({
-                    guid: obj,
-                    callback: this._loadData.bind(this)
-                });
-            } else if (obj === null) {
-                console.log("Whoops... the BarcodeScanner has no data!");
-            } else {
-                mx.data.subscribe({
-                    guid: obj.getGuid(),
-                    callback: this._refresh.bind(this)
-                });
-                this._loadData(obj);
-            }
-
-            if (typeof callback !== "undefined") callback();
-        },
-
-        _loadData: function(obj) {
             this._obj = obj;
-        },
-
-        _refresh: function(obj){
-            if (typeof obj === "string") {
-                mx.data.get({
-                    guid: obj,
-                    callback: this._loadData.bind(this)
-                });
-            } else if (obj === null) {
-                console.log("Whoops... the BarcodeScanner has no data!");
-            } else {
-                this._loadData(obj);
-            }
+            if (callback) callback();
         },
 
         _setupEvents: function() {
