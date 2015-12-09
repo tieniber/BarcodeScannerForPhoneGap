@@ -1,9 +1,8 @@
 /*global mxui, mx, dojo, cordova */
-(function(){
+define([ "dojo/_base/declare" ], function(declare) {
     'use strict';
 
-    dojo.provide('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap');
-    dojo.declare('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap', mxui.widget._WidgetBase, {
+    return declare('BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap', mxui.widget._WidgetBase, {
 
         // Coding guideline, internal variables start with '_'.
         // internal variables.
@@ -127,4 +126,7 @@
             this.domNode.appendChild(this._button);
         }
     });
-}());
+});
+
+// Compatibility with older mendix versions.
+require([ "BarcodeScannerForPhoneGap/widget/BarcodeScannerForPhoneGap" ], function() {});
