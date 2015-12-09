@@ -91,11 +91,12 @@ define([
 
         _executeMicroflow: function() {
             if (this.onchangemf && this._obj) {
-                mx.processor.xasAction({
-                    error: function() {},
-                    actionname: this.onchangemf,
-                    applyto: "selection",
-                    guids: [ this._obj.getGuid() ]
+                mx.data.action({
+                    params: {
+                        actionname: this.onchangemf
+                        applyto: "selection",
+                        guids: [ this._obj.getGuid() ]
+                    }
                 });
             }
         },
