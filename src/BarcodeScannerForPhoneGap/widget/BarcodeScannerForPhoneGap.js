@@ -16,8 +16,7 @@ define([
         _button: null,
 
         startup: function() {
-            if (this._hasStarted)
-                return;
+            if (this._hasStarted) return;
 
             this._hasStarted = true;
 
@@ -43,9 +42,7 @@ define([
                 this._loadData(obj);
             }
 
-            if (typeof callback !== "undefined") {
-                callback();
-            }
+            if (typeof callback !== "undefined") callback();
         },
 
         _loadData: function(obj) {
