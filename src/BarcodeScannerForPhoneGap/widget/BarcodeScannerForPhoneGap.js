@@ -10,6 +10,7 @@ define([
         buttonLabel: "",
         buttonClass: "",
         onchangemf: "",
+        onchangeNanoFlow: "",
 
         _hasStarted: false,
         _obj: null,
@@ -55,6 +56,7 @@ define([
             if (!output.cancelled && output.text && output.text.length > 0) {
                 this._obj.set(this.attributeName, output.text);
                 this._executeMicroflow();
+                this._executeNanoflow();
             }
         },
 
@@ -69,6 +71,19 @@ define([
                         actionname: this.onchangemf,
                         applyto: "selection",
                         guids: [ this._obj.getGuid() ]
+                    }
+                });
+            }
+        },
+
+        _executeNanoflow: function () {
+            if (this.onchangeNanoFlow && this.mxcontext) {
+                mx.data.callNanoflow({
+                    nanoflow: this.onchangeNanoFlow,
+                    origin: this.mxform,
+                    context: this.mxcontext,
+                    error: function (error) {
+                        mx.ui.error(error.message);
                     }
                 });
             }
