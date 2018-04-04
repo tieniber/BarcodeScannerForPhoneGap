@@ -9,8 +9,8 @@ define([
         attributeName: "",
         buttonLabel: "",
         buttonClass: "",
-        onchangemf: "",
-        onChangeNanoFlow: "",
+        onchangeMicroflow: "",
+        onChangeNanoflow: "",
 
         _hasStarted: false,
         _obj: null,
@@ -64,23 +64,23 @@ define([
         },
 
         _executeAction: function () {
-            if (this.onchangemf && this._obj) {
+            if (this.onchangeMicroflow && this._obj) {
                 mx.data.action({
                     params: {
-                        actionname: this.onchangemf,
+                        actionname: this.onchangeMicroflow,
                         applyto: "selection",
                         guids: [ this._obj.getGuid() ]
                     }
                 });
             }
             
-            if (this.onChangeNanoFlow && this.mxcontext) {
+            if (this.onChangeNanoflow && this.mxcontext) {
                 mx.data.callNanoflow({
-                    nanoflow: this.onChangeNanoFlow,
+                    nanoflow: this.onChangeNanoflow,
                     origin: this.mxform,
                     context: this.mxcontext,
                     error: function (error) {
-                        mx.ui.error(error.message);
+                        mx.ui.error("Error executing nanoflow " + this.onChangeNanoflow + " : " + error.message);
                     }
                 });
             }

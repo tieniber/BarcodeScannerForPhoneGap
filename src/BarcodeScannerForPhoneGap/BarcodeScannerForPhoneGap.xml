@@ -25,13 +25,13 @@
             <category>Button</category>
             <description></description>
         </property>
-        <property key="onchangemf" type="microflow" required="false">
+        <property key="onchangeMicroflow" type="microflow" required="false">
             <caption>On change microflow</caption>
             <category>Events</category>
             <description></description>
             <returnType type="Void"/>
         </property>
-        <property key="onChangeNanoFlow" type="nanoflow" required="false">
+        <property key="onChangeNanoflow" type="nanoflow" required="false">
             <caption>On change nanoflow</caption>
             <category>Events</category>
             <description/>
