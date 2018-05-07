@@ -1,6 +1,6 @@
 #BarcodeScannerForPhoneGap
 
-The BarcodeScanner widget enables PhoneGap native barcode scanning functionality within your Mendix mobile application. This is a widget that will be functional from Mendix 5.10.
+The BarcodeScanner widget enables PhoneGap native barcode scanning functionality within your Mendix mobile application. This is a widget that will be functional from Mendix 7.13.1.
 
 ## Contributing
 
@@ -24,3 +24,5 @@ The attribute on the dataview object where the resulting string should be set to
 ### Events
 #### On change microflow
 An optional microflow that will be triggered once the location has been retrieved.
+#### On change nanoflow
+An optional nanoflow that will be triggered once the location has been retrieved.
