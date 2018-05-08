@@ -80,7 +80,7 @@ define([
                     origin: this.mxform,
                     context: this.mxcontext,
                     error: function (error) {
-                        mx.ui.error("Error executing nanoflow " + this.onChangeNanoflow + " : " + error.message);
+                        mx.ui.error(`An error occurred while executing the on change nanoflow ${error.message}`);
                     }
                 });
             }
