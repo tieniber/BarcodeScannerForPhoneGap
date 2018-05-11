@@ -1,3 +1,4 @@
+node_modules/
 test/javasource/
 test/deployment/
 test/.classpath

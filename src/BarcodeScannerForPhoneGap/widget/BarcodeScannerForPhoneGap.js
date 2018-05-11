@@ -9,7 +9,7 @@ define([
         attributeName: "",
         buttonLabel: "",
         buttonClass: "",
-        onchangeMicroflow: "",
+        onchangemf: "",
         onChangeNanoflow: "",
 
         _hasStarted: false,
@@ -65,11 +65,16 @@ define([
 
         _executeAction: function () {
             if (this.onchangeMicroflow && this._obj) {
+                var microflow = this.onchangeMicroflow;
                 mx.data.action({
                     params: {
-                        actionname: this.onchangeMicroflow,
+                        actionname: microflow,
                         applyto: "selection",
                         guids: [ this._obj.getGuid() ]
+                    },
+                    origin: this.mxform,
+                    error: function (error) {
+                        mx.ui.error("An error occurred while executing microflow " + microflow + " : " + error.message);
                     }
                 });
             }
@@ -80,7 +85,7 @@ define([
                     origin: this.mxform,
                     context: this.mxcontext,
                     error: function (error) {
-                        mx.ui.error(`An error occurred while executing the on change nanoflow ${error.message}`);
+                        mx.ui.error("An error occurred while executing the on change nanoflow: " + error.message);
                     }
                 });
             }

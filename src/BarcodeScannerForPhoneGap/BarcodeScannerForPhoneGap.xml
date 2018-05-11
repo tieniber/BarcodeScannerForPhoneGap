@@ -25,7 +25,7 @@
             <category>Button</category>
             <description></description>
         </property>
-        <property key="onchangeMicroflow" type="microflow" required="false">
+        <property key="onchangemf" type="microflow" required="false">
             <caption>On change microflow</caption>
             <category>Events</category>
             <description></description>
