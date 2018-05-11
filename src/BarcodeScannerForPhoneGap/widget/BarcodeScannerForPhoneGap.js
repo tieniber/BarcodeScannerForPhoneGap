@@ -10,6 +10,7 @@ define([
         buttonLabel: "",
         buttonClass: "",
         onchangemf: "",
+        onChangeNanoflow: "",
 
         _hasStarted: false,
         _obj: null,
@@ -54,7 +55,7 @@ define([
         _barcodeSuccess: function(output) {
             if (!output.cancelled && output.text && output.text.length > 0) {
                 this._obj.set(this.attributeName, output.text);
-                this._executeMicroflow();
+                this._executeAction();
             }
         },
 
@@ -62,13 +63,29 @@ define([
             mx.ui.error("Scanning failed: " + error.message);
         },
 
-        _executeMicroflow: function() {
-            if (this.onchangemf && this._obj) {
+        _executeAction: function () {
+            if (this.onchangeMicroflow && this._obj) {
+                var microflow = this.onchangeMicroflow;
                 mx.data.action({
                     params: {
-                        actionname: this.onchangemf,
+                        actionname: microflow,
                         applyto: "selection",
                         guids: [ this._obj.getGuid() ]
+                    },
+                    origin: this.mxform,
+                    error: function (error) {
+                        mx.ui.error("An error occurred while executing microflow " + microflow + " : " + error.message);
+                    }
+                });
+            }
+            
+            if (this.onChangeNanoflow && this.mxcontext) {
+                mx.data.callNanoflow({
+                    nanoflow: this.onChangeNanoflow,
+                    origin: this.mxform,
+                    context: this.mxcontext,
+                    error: function (error) {
+                        mx.ui.error("An error occurred while executing the on change nanoflow: " + error.message);
                     }
                 });
             }
