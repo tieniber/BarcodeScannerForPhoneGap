@@ -1,6 +1,6 @@
 {
   "name": "BarcodeScannerForPhoneGap",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Creates a button to use the barcodescanner functionality",
   "license": "Apache-2.0",
   "author": "Mendix BV",
