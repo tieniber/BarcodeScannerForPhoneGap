@@ -3,7 +3,7 @@
 The BarcodeScanner widget enables PhoneGap native barcode scanning functionality within your Mendix mobile application. This is a widget that will be functional from Mendix 7.13.1.
 
 ## Add plugin
-When Publish App for Mobile App Stores, add in the the Custom Phonegap/Cordova configuration the barcode plugin
+When Publishing this App for Mobile App Stores, add in the the Custom Phonegap/Cordova configuration the barcode plugin
 ``` xml
 <plugin name="phonegap-plugin-barcodescanner" />
 ```

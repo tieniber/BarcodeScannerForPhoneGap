@@ -64,8 +64,8 @@ define([
         },
 
         _executeAction: function () {
-            if (this.onchangeMicroflow && this._obj) {
-                var microflow = this.onchangeMicroflow;
+            if (this.onchangemf && this._obj) {
+                var microflow = this.onchangemf;
                 mx.data.action({
                     params: {
                         actionname: microflow,
