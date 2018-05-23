@@ -79,7 +79,7 @@ define([
                 });
             }
             
-            if (this.onChangeNanoflow && this.mxcontext) {
+            if (this.onChangeNanoflow.nanoflow && this.mxcontext) {
                 mx.data.callNanoflow({
                     nanoflow: this.onChangeNanoflow,
                     origin: this.mxform,
